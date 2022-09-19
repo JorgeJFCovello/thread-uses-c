@@ -3,33 +3,29 @@
 #include <pthread.h>
 #include <unistd.h>
 
-int contador = 0;
-int cantidad_sumadores = 1;
-int cantidad_duplicadores = 1;
-
-void sumar (int id){
-    contador++;
-    printf("Sumador %d: contador = %d", id, contador);
+void imprimir_mensaje (int nro_msg){
+    sleep(3);
+    printf("Mensaje %d\n", nro_msg);
 }
-void multiplicar (int id){
-    contador = contador * 2;
-    printf("Duplicador %d: contador = %d", id, contador);
+void imprimir_mensaje_con_mas_tiempo (int nro_msg){
+    sleep(13);
+    printf("Mensaje %d\n", nro_msg);
 }
 void crear_hilos () {
-    for (int i = 0; i < cantidad_sumadores; i++) {
-        pthread_t * sumador = malloc(sizeof(pthread_t));
-        pthread_create(sumador, NULL, sumar, i+1);
-        pthread_detach(sumador);
-    }
-    for (int i = 0; i < cantidad_duplicadores; i++) {
-        pthread_t * multiplicador = malloc(sizeof(pthread_t));
-        pthread_create(multiplicador, NULL, multiplicar, i+1);
-        pthread_detach(multiplicador);
-    }
+    pthread_t * primer_hilo = malloc(sizeof(pthread_t));
+    pthread_create(primer_hilo, NULL, imprimir_mensaje_con_mas_tiempo, 1);
+    pthread_t * segundo_hilo = malloc(sizeof(pthread_t));
+    pthread_create(segundo_hilo, NULL, imprimir_mensaje, 2);
+    pthread_t * tercer_hilo = malloc(sizeof(pthread_t));
+    pthread_create(tercer_hilo, NULL, imprimir_mensaje, 3);
+    pthread_t * cuarto_hilo = malloc(sizeof(pthread_t));
+    pthread_create(cuarto_hilo, NULL, imprimir_mensaje, 4);
+    pthread_join(*primer_hilo,NULL);
+    printf("Use un join :O!\n");
+    pthread_detach(*segundo_hilo);
+    pthread_detach(*tercer_hilo);
+    pthread_detach(*cuarto_hilo);
 }
 int main() {
     crear_hilos();
-    while(1){
-        sleep(1);
-    }
 }

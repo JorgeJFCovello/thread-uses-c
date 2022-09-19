@@ -41,22 +41,22 @@ void crear_hilos () {
     for (int i = 0; i < cantidad_sumadores; i++) {
         pthread_t * sumador = malloc(sizeof(pthread_t));
         pthread_create(sumador, NULL, sumar, i+1);
-        pthread_detach(sumador);
+        pthread_detach(*sumador);
     }
     for (int i = 0; i < cantidad_duplicadores; i++) {
         pthread_t * multiplicador = malloc(sizeof(pthread_t));
         pthread_create(multiplicador, NULL, multiplicar, i+1);
-        pthread_detach(multiplicador);
+        pthread_detach(*multiplicador);
     }
     for (int i = 0; i < cantidad_duplicadores; i++) {
         pthread_t * divisor = malloc(sizeof(pthread_t));
         pthread_create(divisor, NULL, dividir, i+1);
-        pthread_detach(divisor);
+        pthread_detach(*divisor);
     }
     for (int i = 0; i < cantidad_duplicadores; i++) {
         pthread_t * resta = malloc(sizeof(pthread_t));
         pthread_create(resta, NULL, restar, i+1);
-        pthread_detach(resta);
+        pthread_detach(*resta);
     }
 }
 int main() {
